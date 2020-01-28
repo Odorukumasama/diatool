@@ -12,20 +12,25 @@ type entry struct {
 	Date time.Time `json:"date"`
 }
 
-func NewEntry(id int) *entry {
-	e := new(entry)
-	e.Id = id
+type EntryFactory struct{}
 
-	e.Date = time.Now()
+func (ef *EntryFactory) NewEntry(id int) *entry {
 
-	return e
+	return &entry{
+		Id:   id,
+		Date: time.Now(),
+	}
 }
 
-func DoSerialize(o *entry) {
+func (e *entry) DoSerialize() {
 	var jsonData []byte
-	jsonData, err := json.Marshal(o)
+	jsonData, err := json.Marshal(e)
 	if err != nil {
 		fmt.Println(err)
 	}
 	fmt.Println(jsonData)
+}
+
+func (e *entry) DoDeSerialize() *entry {
+	return nil
 }
